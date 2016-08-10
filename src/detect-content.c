@@ -133,6 +133,10 @@ int DetectContentDataParse(const char *keyword, const char *contentstr,
 
         for (i = 0, x = 0; i < len; i++) {
             // SCLogDebug("str[%02u]: %c", i, str[i]);
+            if(str[i] == '"') {
+                    SCLogError(SC_ERR_INVALID_SIGNATURE, "Invalid unescaped double quote within content section");
+                    goto error;
+            }
             if (str[i] == '|') {
                 bin_count++;
                 if (bin) {
