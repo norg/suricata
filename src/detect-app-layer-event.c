@@ -230,6 +230,10 @@ static DetectAppLayerEventData *DetectAppLayerEventParseAppP1(const char *arg)
     char alproto_name[50];
 
     p_idx = strchr(arg, '.');
+    if (strlen(arg) > strlen(alproto_name)) {
+        SCLogError(SC_ERR_INVALID_SIGNATURE, "app-layer-event keyword is too long or malformed");
+        return NULL;
+    }
     /* + 1 for trailing \0 */
     strlcpy(alproto_name, arg, p_idx - arg + 1);
 
